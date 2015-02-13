@@ -24,7 +24,11 @@ angular.module('nodejsApp')
         .success(function(data) {
           $scope.video = data;
           $scope.video.url = $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + data.id);
-          $scope.video.pastDate = moment($scope.video.pastDate);
+          $scope.video.pastDate = (new Date($scope.video.pastMS));
+          if ($scope.video.pastDate.getFullYear() < 0) {
+            $scope.video.pastDate.setFullYear(-($scope.video.pastDate.getFullYear()));
+            $scope.video.bc = true;
+          }
           $scope.processing = false;
         })
         .error(function(data) {

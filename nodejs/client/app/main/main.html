@@ -32,8 +32,10 @@
     </div>
     <div class="col-sm-12" ng-show="video.url">
       <h2 class="text-center">{{video.name}}<br><small>uploaded by {{video.uploader}}</small></h2>
-      <p>Has been watched for {{video.playedLength | number}} minutes. Or {{(video.playedLength / 60) | number}} hours, if you prefer.</p>
-      <p class="lead">For one person to watch it, they'd have to start on {{video.pastDate|date:'medium'}}.</p>
+      <p ng-hide="video.bc">Has been watched {{video.views|number}} times. At {{video.length}} seconds long, that's {{video.playedLength | number}} minutes. Or {{(video.playedLength / 60) | number}} hours, if you prefer. <span ng-show="(video.playedLength / 1440)"></span></p>
+      <p ng-show="video.bc">Has been watched {{video.views|number}} times. For a total of about {{(video.playedLength / 525960) | number:0}} years. Wow.</p>
+      <p class="lead" ng-hide="video.bc">For one person to watch it, they'd have to start on {{video.pastDate|date:'medium'}}.</p>
+      <p class="lead" ng-show="video.bc">For one person to watch it, they'd have to start in the year {{video.pastDate.getFullYear()|number}} BC.</p>
       <div class="embed-responsive embed-responsive-16by9">
         <iframe class="embed-responsive-item" ng-src="{{video.url}}"></iframe>
       </div>

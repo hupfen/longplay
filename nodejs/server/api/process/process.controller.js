@@ -21,8 +21,41 @@ exports.index = function(req, res) {
       var result = data.items[0];
       var durString = result.contentDetails.duration;
       var views = parseFloat(result.statistics.viewCount);
-
-      var durSeconds = (parseFloat(durString.substring(2, durString.indexOf('M'))) * 60) + (parseFloat(durString.substring(durString.indexOf('M')+1, durString.indexOf('S'))));
+      var hasD = durString.indexOf('D') !== -1;
+      var hasH = durString.indexOf('H') !== -1;
+      var hasM = durString.indexOf('M') !== -1;
+      var hasS = durString.indexOf('S') !== -1;
+      var durSeconds = 0;
+      
+      if (hasD) {
+        durSeconds += parseFloat(durString.substring(durString.indexOf('P')+1, durString.indexOf('D')) * 60 * 60 * 24);
+      }
+      
+      if (hasH) {
+        durSeconds += parseFloat(durString.substring(durString.indexOf('T')+1, durString.indexOf('H')) * 60 * 60);
+      }
+      
+      if (hasM) {
+        if (hasH) {
+          durSeconds += parseFloat(durString.substring(durString.indexOf('H')+1, durString.indexOf('M')) * 60);
+        }
+        else {
+          durSeconds += parseFloat(durString.substring(durString.indexOf('T')+1, durString.indexOf('M')) * 60);
+        }
+      }
+      
+      if (hasS) {
+        if (hasM) {
+          durSeconds += parseFloat(durString.substring(durString.indexOf('M')+1, durString.indexOf('S')));
+        }
+        else if (hasH) {
+          durSeconds += parseFloat(durString.substring(durString.indexOf('H')+1, durString.indexOf('S')));
+        }
+        else {
+          durSeconds += parseFloat(durString.substring(durString.indexOf('T')+1, durString.indexOf('S')));
+        }
+      }
+      
       var playMinutes = ((durSeconds * views) / 60);
 
       var now = moment();
@@ -35,15 +68,14 @@ exports.index = function(req, res) {
         'length': durSeconds,
         'views': views,
         'uploader': result.snippet.channelTitle,
-        'pastDate': past
+        'pastDate': past.format(),
+        'pastMS': past.valueOf(),
+        'ad': true,
+        'bc': false
       });
     }
     else {
       res.json(err);
     }
   });
-  
-  //.substring(2, test.indexOf('M')) (minutes)
-  //.substring(test.indexOf('M')+1, test.indexOf('S'))
-
 };
