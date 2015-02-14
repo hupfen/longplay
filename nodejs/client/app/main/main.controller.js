@@ -1,13 +1,8 @@
 'use strict';
 
 angular.module('nodejsApp')
-  .controller('MainCtrl', function ($scope, $http, $sce, Blurb) {
-    $scope.url = '';
-    $scope.error;
-    $scope.processing = false;
-    $scope.video = {};
-  
-    $scope.process = function () {
+  .controller('MainCtrl', function ($scope, $http, $sce, $location, Blurb) {
+      $scope.process = function () {
       $scope.error = null;
       $scope.processing = true;
       var videoID = '';
@@ -34,6 +29,7 @@ angular.module('nodejsApp')
               $scope.video.bc = true;
             }
             $scope.blurb = Blurb.getBlurb($scope.video.pastMS);
+            $scope.here = $location.protocol() + '://' + $location.host() + $location.path() + '?v=' + data.id;
           }
           $scope.processing = false;
         })
@@ -47,5 +43,17 @@ angular.module('nodejsApp')
         $scope.processing = false;
       }
     };
+  
+  
+    $scope.url = '';
+    if ($location.search().v && $location.search().v.length === 11) {
+      $scope.url = 'http://youtu.be/' + $location.search().v;
+      $scope.process();
+    }
+    $scope.error;
+    $scope.processing = false;
+    $scope.video = {};
+  
+    $scope.here = $location.absUrl();
 
   });

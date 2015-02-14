@@ -36,6 +36,17 @@
       <p class="lead" ng-hide="video.bc">For one person to watch it, they'd have to start on {{video.pastDate|date:'mediumDate'}}.</p>
       <p class="lead" ng-show="video.bc">For one person to watch it, they'd have to start in the year {{video.pastDate.getFullYear()|number}} BC.</p>
       <p class="lead">{{blurb}}.</p>
+      <div class="row">
+        <div class="col-md-4">
+          <a target="_blank" ng-href="https://twitter.com/intent/tweet?text=This YouTube video has run for over {{video.playedLength / 60 | number:0}} combined hours. &hashtags=longplay&url={{here}}&via=hupfen" class="btn btn-link btn-block"><i class="fa fa-twitter"></i> Share on Twitter</a>
+        </div>
+        <div class="col-md-4">
+          <a target="_blank" href="http://www.facebook.com/sharer/sharer.php?u={{here}}" class="btn btn-link btn-block"><i class="fa fa-facebook"></i> Share on Facebook</a>
+        </div>
+        <div class="col-md-4">
+          <a target="_blank" href="https://plus.google.com/share?url={{here}}" class="btn btn-link btn-block"><i class="fa fa-google-plus"></i> Share on Google+</a>
+        </div>
+      </div>
       <div class="embed-responsive embed-responsive-16by9">
         <iframe class="embed-responsive-item" ng-src="{{video.url}}"></iframe>
       </div>
