@@ -17,7 +17,7 @@ exports.index = function(req, res) {
     "part": "contentDetails, statistics, player, snippet"
   , "id": video
   }, function (err, data) {
-    if (data) {
+    if (data && data.items.length > 0) {
       var result = data.items[0];
       var durString = result.contentDetails.duration;
       var views = parseFloat(result.statistics.viewCount);
@@ -70,7 +70,6 @@ exports.index = function(req, res) {
         'uploader': result.snippet.channelTitle,
         'pastDate': past.format(),
         'pastMS': past.valueOf(),
-        'ad': true,
         'bc': false
       });
     }

@@ -1,4 +1,3 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
 
 <header class="hero-unit" id="banner">
   <div class="container">
@@ -19,7 +18,7 @@
     <div class="col-sm-8">
       <div class="form-group">
         <label for="url" class="sr-only">YouTube Video URL</label>
-        <input type="text" class="form-control" id="url" ng-model="url" placeholder="YouTube Video URL">
+        <input type="text" class="form-control" id="url" ng-model="url" placeholder="YouTube Video URL" ng-keyup="$event.keyCode == 13 && process()">
       </div>
     </div>
     <div class="col-sm-4">
@@ -32,10 +31,11 @@
     </div>
     <div class="col-sm-12" ng-show="video.url">
       <h2 class="text-center">{{video.name}}<br><small>uploaded by {{video.uploader}}</small></h2>
-      <p ng-hide="video.bc">Has been watched {{video.views|number}} times. At {{video.length}} seconds long, that's {{video.playedLength | number}} minutes. Or {{(video.playedLength / 60) | number}} hours, if you prefer. <span ng-show="(video.playedLength / 1440)"></span></p>
+      <p ng-hide="video.bc">Has been watched {{video.views|number}} times. At {{video.length.seconds().duration()}} long, that's {{video.playedLength | number}} minutes. Or {{(video.playedLength / 60) | number}} hours, if you prefer. <span ng-show="(video.playedLength / 1440)"></span></p>
       <p ng-show="video.bc">Has been watched {{video.views|number}} times. For a total of about {{(video.playedLength / 525960) | number:0}} years. Wow.</p>
-      <p class="lead" ng-hide="video.bc">For one person to watch it, they'd have to start on {{video.pastDate|date:'medium'}}.</p>
+      <p class="lead" ng-hide="video.bc">For one person to watch it, they'd have to start on {{video.pastDate|date:'mediumDate'}}.</p>
       <p class="lead" ng-show="video.bc">For one person to watch it, they'd have to start in the year {{video.pastDate.getFullYear()|number}} BC.</p>
+      <p class="lead">{{blurb}}.</p>
       <div class="embed-responsive embed-responsive-16by9">
         <iframe class="embed-responsive-item" ng-src="{{video.url}}"></iframe>
       </div>
@@ -45,7 +45,7 @@
 
 <footer class="footer">
   <div class="container">
-      <p><a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
-         <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a></p>
+      <p><a href="https://twitter.com/hupfen">@hupfen</a> |
+         <a href="http://fortnight.club">A Fortnight Club project</a></p>
   </div>
 </footer>
