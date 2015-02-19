@@ -29,6 +29,7 @@ angular.module('nodejsApp')
       if (date.isBefore('February 14, 2005')) { validBlurbs.push({blurb: 'before YouTube even existed', reason: '(YouTube founded Feb. 14 2005)'}); }
       // 1990s
       // 1980s
+      if (date.isBefore('October 2, 1987')) { validBlurbs.push({blurb: 'before I was born', reason: '(Zoe, not this website)'}); }
       // 1970s
       // 1960s
       // 1950s
